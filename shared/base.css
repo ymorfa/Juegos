@@ -1,0 +1,129 @@
+/* Estilos compartidos por todos los juegos.
+   Idea visual: los juegos son una "mesa" (--table) sobre la que se ponen paneles planos y cartas.
+   Solo las cartas tienen profundidad; los paneles son planos con contorno de tinta.
+   Cada juego puede redefinir --table / --table-pattern en su propio CSS. */
+:root{
+  --ink:#241B3A;          /* texto y contornos (berenjena, no negro) */
+  --table:#2B2350;        /* fondo de la mesa */
+  --table-pattern:none;
+  --paper:#FFFFFF;        /* paneles */
+  --text:#241B3A;
+  --muted:#5E5677;
+  --line:#241B3A;
+  --gold:#F1C232;         /* acción principal */
+  --p1:#FF5D8F; --p1soft:#FFE3EC;
+  --p2:#7B61FF; --p2soft:#E9E4FF;
+  --on-table:#FFFFFF;     /* texto directamente sobre la mesa */
+  --display:"Bagel Fat One","Arial Rounded MT Bold",system-ui,sans-serif;
+  --body:"Lexend","Segoe UI",system-ui,-apple-system,sans-serif;
+  /* escala tipográfica 1.25 */
+  --t-xs:.8rem; --t-sm:.9rem; --t-md:1.25rem; --t-lg:1.563rem; --t-xl:1.953rem; --t-2xl:2.441rem; --t-3xl:3.052rem;
+  --r-panel:18px; --r-ctrl:12px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --table:#17122B; --paper:#2A2342; --text:#F3EEFF; --muted:#BDB4D8; --line:#0C0817;
+    --p1soft:#4F2236; --p2soft:#2F2763;
+  }
+}
+:root[data-theme="dark"]{
+  --table:#17122B; --paper:#2A2342; --text:#F3EEFF; --muted:#BDB4D8; --line:#0C0817;
+  --p1soft:#4F2236; --p2soft:#2F2763;
+}
+
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{
+  margin:0;min-height:100vh;font-family:var(--body);font-weight:400;font-size:1rem;line-height:1.5;color:var(--text);
+  background-color:var(--table);background-image:var(--table-pattern);
+}
+#app{max-width:920px;margin:0 auto;padding:16px 16px 48px}
+h1,h2,h3{font-family:var(--display);font-weight:400;line-height:1.05;margin:0}
+button,input,select{font-family:var(--body)}
+b,strong{font-weight:700}
+
+.screen{display:flex;flex-direction:column;gap:20px}
+.panel{background:var(--paper);border:3px solid var(--line);border-radius:var(--r-panel);padding:20px}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+@media (max-width:560px){.grid2.stack{grid-template-columns:1fr}}
+
+/* títulos sobre la mesa */
+.logo{font-size:clamp(2.6rem,9vw,4.4rem);color:var(--on-table);letter-spacing:-.01em;margin:8px 0 0}
+.title{font-size:clamp(var(--t-xl),6vw,var(--t-2xl));color:var(--on-table)}
+.sub{color:var(--on-table);opacity:.85;margin:-8px 0 0;max-width:52ch}
+
+/* formularios */
+.field{display:flex;flex-direction:column;gap:6px;font-weight:600;font-size:var(--t-sm);color:var(--muted)}
+.field input{font:inherit;font-size:1.1rem;font-weight:600;color:var(--text);background:var(--paper);
+  border:3px solid var(--line);border-radius:var(--r-ctrl);padding:10px 12px;min-width:0}
+.field.f1 input{border-left:12px solid var(--p1)} .field.f2 input{border-left:12px solid var(--p2)}
+.check{display:flex;align-items:flex-start;gap:12px;font-weight:600;line-height:1.35}
+.check input{width:24px;height:24px;flex:none;margin:0;accent-color:var(--p2)}
+.check small{display:block;font-weight:400;color:var(--muted)}
+fieldset{border:0;margin:0;padding:0;min-width:0}
+legend{padding:0;margin-bottom:8px;font-weight:600;font-size:var(--t-sm);color:var(--muted)}
+
+/* opciones tipo "pastilla" (radio buttons): .seg > label > input + span */
+.seg{display:flex;flex-wrap:wrap;gap:8px}
+.seg.nums{display:grid;grid-template-columns:repeat(6,minmax(0,56px))}
+.seg.nums span{min-width:0;padding:8px 0}
+.seg label{position:relative}
+.seg input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.seg span{display:block;min-width:48px;text-align:center;font-weight:700;font-size:1.1rem;padding:8px 14px;
+  border:3px solid var(--line);border-radius:var(--r-ctrl);background:var(--paper);color:var(--text)}
+.seg input:checked+span{background:var(--gold);color:var(--ink)}
+.seg input:focus-visible+span{outline:4px solid var(--gold);outline-offset:3px}
+
+/* botones */
+.btn{font-weight:700;font-size:1rem;color:var(--ink);background:#FFFFFF;border:3px solid var(--line);border-radius:var(--r-ctrl);
+  padding:10px 16px;box-shadow:0 4px 0 var(--line);cursor:pointer;transition:transform .06s,box-shadow .06s}
+.btn:active:not(:disabled){transform:translateY(4px);box-shadow:0 0 0 var(--line)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn:focus-visible,.mini:focus-visible,.home-link:focus-visible,.game-card:focus-visible{outline:4px solid var(--gold);outline-offset:3px}
+.btn.big{font-family:var(--display);font-weight:400;font-size:clamp(1.15rem,4.6vw,var(--t-lg));padding:12px 22px}
+.btn.primary{background:var(--gold)}
+.btn.wide{width:100%}
+.mini{font-weight:700;border:3px solid var(--line);background:var(--gold);color:var(--ink);border-radius:10px;width:36px;height:34px;cursor:pointer}
+.mini:disabled{opacity:.25;cursor:default}
+
+.pc1{color:var(--p1)} .pc2{color:var(--p2)}
+.who{font-weight:700}
+.empty{padding:14px;text-align:center;font-weight:600;color:var(--muted)}
+
+/* reglas desplegables */
+.rules summary{font-family:var(--display);font-size:var(--t-md);cursor:pointer}
+.rules ol{margin:12px 0 0;padding-left:1.4em}
+.rules li{margin:6px 0;max-width:68ch}
+
+/* pantalla "pásale el dispositivo" */
+.secret{display:flex;flex-direction:column;gap:16px;align-items:flex-start}
+.secret .eye{font-size:clamp(4rem,16vw,6rem);line-height:1}
+.secret p{font-size:var(--t-md);line-height:1.4;margin:0;max-width:34ch}
+
+/* enlace de regreso y menú de juegos */
+.home-link{display:inline-block;margin:12px 0 0 16px;font-weight:600;color:var(--on-table);text-decoration:none;opacity:.85}
+.home-link:hover{opacity:1;text-decoration:underline}
+
+/* celebración */
+.trophy{font-size:clamp(5rem,20vw,8rem);line-height:1;animation:pop .6s cubic-bezier(.3,1.6,.5,1)}
+@keyframes pop{0%{transform:scale(.5) rotate(-6deg);opacity:0}100%{transform:none;opacity:1}}
+.row-btns{display:flex;flex-direction:column;gap:12px}
+.confetti{position:fixed;top:-30px;font-size:1.6rem;pointer-events:none;animation:fall linear forwards;z-index:50}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01s !important;animation-iteration-count:1 !important;transition:none !important}
+  .confetti{display:none}
+}
+
+/* menú de juegos: cada juego es una carta coleccionable */
+.game-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:24px}
+.game-card{display:block;aspect-ratio:5/7;padding:9px;border-radius:20px;text-decoration:none;color:var(--ink);
+  background:conic-gradient(from 210deg,#FF7AB6,#FFD36E,#7CF2C8,#6FB7FF,#B58CFF,#FF7AB6);
+  box-shadow:0 0 0 3px var(--line),0 18px 30px rgba(0,0,0,.35);transition:transform .15s}
+.game-card:hover{transform:translateY(-4px) rotate(-1deg)}
+.gc-face{height:100%;display:flex;flex-direction:column;gap:10px;background:#FFFFFF;border:2px solid var(--ink);border-radius:12px;padding:12px}
+.gc-art{flex:1;display:grid;place-items:center;font-size:3rem;border:2px solid var(--ink);border-radius:8px;background:linear-gradient(#F6C25B 0 64%,#A7C957 64% 100%)}
+.gc-name{font-family:var(--display);font-size:var(--t-lg);line-height:1.05}
+.gc-desc{font-size:var(--t-sm);color:#5E5677}
+.next-slot{display:grid;place-items:center;text-align:center;background:none;box-shadow:none;border:3px dashed var(--on-table);opacity:.55;color:var(--on-table);font-weight:600;padding:24px}

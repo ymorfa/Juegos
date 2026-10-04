@@ -1,0 +1,92 @@
+// Datos de los animales de cada grupo (bioma). Para agregar un animal, agrega una fila a LAND o SEA.
+// [nombre, emoji, vida, ataque, defensa, velocidad, ataque especial]
+// Criterios (escala ~5–190, comparable entre las dos listas):
+//  vida      = tamaño y peso (escala logarítmica: un elefante no tiene 1000× la vida de un ratón)
+//  ataque    = daño real: fuerza de mordida/golpe, garras, cuernos o veneno
+//  defensa   = armadura natural: caparazón, placas, piel gruesa, grasa o púas
+//  velocidad = rapidez y agilidad en combate (carrera, nado, reflejos), no solo velocidad máxima
+const LAND = [
+  ['Elefante','🐘',170,120,105,45,'Trompazo'],
+  ['León','🦁',95,115,70,90,'Zarpazo'],
+  ['Perro','🐕',65,60,55,80,'Mordisco Leal'],
+  ['Avestruz','🦤',85,90,55,105,'Patada Turbo'],
+  ['Hipopótamo','🦛',150,120,110,40,'Mordida Gigante'],
+  ['Tigre','🐅',105,120,75,85,'Garra Rayada'],
+  ['Oso Polar','🐻‍❄️',135,120,95,55,'Abrazo Helado'],
+  ['Rinoceronte','🦏',145,115,125,55,'Cuernazo'],
+  ['Gorila','🦍',110,110,85,60,'Puño Gorila'],
+  ['Gato','🐈',35,40,35,100,'Arañazo'],
+  ['Lince','🐈‍⬛',55,65,50,95,'Salto Sigiloso'],
+  ['Jaguar','🐆',90,115,70,95,'Mordida Feroz'],
+  ['Lémur','🐒',30,25,30,105,'Cola Giratoria'],
+  ['Cocodrilo','🐊',125,125,120,30,'Mandíbula de Acero'],
+  ['Lobo','🐺',75,80,60,85,'Aullido Mordiente'],
+  ['Oso Pardo','🐻',130,115,90,60,'Zarpa de Miel'],
+  ['Toro','🐂',120,105,85,65,'Embestida'],
+  ['Jirafa','🦒',130,95,75,70,'Cuellazo'],
+  ['Cebra','🦓',90,80,65,90,'Coz Rayada'],
+  ['Canguro','🦘',80,85,60,90,'Gancho Boxeador'],
+  ['Águila','🦅',45,85,35,125,'Picada Veloz'],
+  ['Serpiente','🐍',45,95,40,80,'Mordida Venenosa'],
+  ['Tortuga','🐢',100,40,140,10,'Caparazón Rodante'],
+  ['Zorro','🦊',50,55,45,95,'Truco Astuto'],
+  ['Jabalí','🐗',90,85,80,70,'Colmillazo'],
+  ['Erizo','🦔',25,30,100,35,'Bola de Púas'],
+  ['Pingüino','🐧',55,40,55,25,'Deslizón Helado'],
+  ['Ratón','🐁',20,20,20,110,'Mordisquito'],
+  ['Bisonte','🦬',140,110,100,70,'Estampida'],
+  ['Escorpión','🦂',20,75,75,50,'Aguijonazo'],
+  ['Caballo','🐎',110,75,65,105,'Coz Galopante'],
+  ['Camello','🐪',125,70,80,65,'Escupitajo'],
+  ['Ciervo','🦌',85,75,55,100,'Cornamenta'],
+  ['Tejón de Miel','🦡',45,70,95,60,'Furia sin Miedo'],
+  ['Zorrillo','🦨',30,55,40,45,'Nube Apestosa'],
+  ['Mapache','🦝',40,40,45,70,'Manos Ladronas'],
+  ['Panda','🐼',110,95,85,40,'Mordida de Bambú'],
+  ['Koala','🐨',40,35,50,20,'Abrazo Dormilón'],
+  ['Perezoso','🦥',40,45,55,5,'Garra Lenta'],
+  ['Orangután','🦧',95,90,70,50,'Brazo Largo'],
+  ['Dragón de Komodo','🦎',85,100,85,50,'Mordida Tóxica'],
+  ['Búfalo','🐃',130,105,95,60,'Cornada Doble'],
+  ['Búho','🦉',25,60,30,95,'Ataque Silencioso'],
+  ['Tarántula','🕷️',10,40,40,40,'Pelos Urticantes'],
+  ['Cabra Montés','🐐',65,70,70,85,'Cabezazo']
+];
+const SEA = [
+  ['Tiburón Blanco','🦈',120,125,75,90,'Mordida Abismal'],
+  ['Orca','🐋',160,130,90,95,'Ola Asesina'],
+  ['Ballena Azul','🐳',190,80,100,40,'Coletazo Gigante'],
+  ['Delfín','🐬',85,70,55,105,'Sonar Saltarín'],
+  ['Pulpo','🐙',60,70,45,75,'Ocho Abrazos'],
+  ['Calamar Gigante','🦑',115,95,55,65,'Tinta Tentáculo'],
+  ['Cangrejo','🦀',35,60,100,40,'Pinza Doble'],
+  ['Langosta','🦞',40,65,95,55,'Tenaza Roja'],
+  ['Camarón','🦐',15,15,25,85,'Coletazo Escapista'],
+  ['Camarón Pistola','🦐',15,80,25,90,'Burbuja Explosiva'],
+  ['Pez Globo','🐡',35,45,95,25,'Inflada de Púas'],
+  ['Pez Payaso','🐠',15,15,30,50,'Escondite en la Anémona'],
+  ['Atún','🐟',90,55,55,120,'Torpedo Plateado'],
+  ['Foca','🦭',85,60,65,75,'Panzazo Resbaloso'],
+  ['Tortuga Marina','🐢',100,45,120,50,'Caparazón Marino'],
+  ['Medusa','🪼',20,85,15,20,'Picadura Eléctrica'],
+  ['Nutria Marina','🦦',45,45,45,60,'Golpe de Piedra'],
+  ['Pingüino','🐧',55,40,50,85,'Deslizón Helado'],
+  ['Cocodrilo Marino','🐊',140,130,120,45,'Giro Mortal'],
+  ['Caracol Cono','🐚',15,75,100,5,'Arpón Venenoso'],
+  ['Serpiente Marina','🐍',40,90,40,65,'Mordida Venenosa'],
+  ['Tiburón Martillo','🦈',100,105,70,95,'Martillazo'],
+  ['Tiburón Ballena','🦈',175,30,110,30,'Aspiradora Gigante'],
+  ['Cachalote','🐳',185,115,100,50,'Cabezazo Sónico'],
+  ['Morsa','🦭',130,95,100,35,'Colmillos de Marfil'],
+  ['Pez Espada','🐟',95,100,55,120,'Estocada'],
+  ['Pez León','🐠',20,65,50,40,'Espinas Venenosas'],
+  ['Morena','🐍',55,85,45,60,'Doble Mandíbula'],
+  ['Pulpo de Anillos Azules','🐙',10,95,15,45,'Veneno Azul'],
+  ['Oso Polar','🐻‍❄️',135,120,95,45,'Abrazo Helado'],
+  ['Águila Marina','🦅',50,85,35,115,'Garras Pescadoras']
+];
+const toAnimals = list => list.map((r,i)=>({id:i,name:r[0],emoji:r[1],hp:r[2],atk:r[3],def:r[4],spd:r[5],move:r[6]}));
+const BIOMES = {
+  tierra:{label:'🌳 Terrestres', animals:toAnimals(LAND), home:'a la selva 🌴'},
+  mar:{label:'🌊 Marinos', animals:toAnimals(SEA), home:'al mar 🌊'}
+};
